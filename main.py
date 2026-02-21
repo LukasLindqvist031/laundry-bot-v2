@@ -257,15 +257,21 @@ async def cmd_bookings(interaction: discord.Interaction):
     if interaction.user.id != OWNER_ID:
         await interaction.response.send_message("⛔ Not authorised.", ephemeral=True)
         return
+    print(f"[/bookings] Received from {interaction.user.id}, deferring...")
     await interaction.response.defer(ephemeral=True)
+    print("[/bookings] Deferred, launching browser...")
 
     async with async_playwright() as pw:
         browser, page = await make_page(pw)
         try:
+            print("[/bookings] Logging in...")
             if not await login(page):
+                print("[/bookings] Login failed")
                 await interaction.followup.send("❌ Login failed.", ephemeral=True)
                 return
+            print("[/bookings] Logged in, reading page...")
             state = await read_booking_page(page)
+            print("[/bookings] Done reading page")
         finally:
             await browser.close()
 
