@@ -15,9 +15,13 @@ and DMs you when it makes a change.
 import asyncio
 import os
 import re
+import sys
 from datetime import datetime, timedelta
 
 import discord
+
+# Force stdout to flush so Railway captures all logs immediately
+sys.stdout.reconfigure(line_buffering=True)
 from discord import app_commands
 from playwright.async_api import async_playwright
 
