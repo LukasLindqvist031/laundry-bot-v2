@@ -28,7 +28,7 @@ APTUS_USER    = "N22B73"
 APTUS_PASS    = "B73B73"
 CATEGORY_ID   = "23"
 DISCORD_TOKEN = "MTQ3NDg5MjkwOTI4MjMzMjg3NA.GxvF7C.XvcQUTroEOohcT3m6q7c1IKxCAwNlBpe-oeNUA"
-OWNER_ID      = berekleyblue  # your actual Discord user ID
+OWNER_ID      = 348095721351938048  # your actual Discord user ID
 
 MIN_HOUR       = 9    # never book before 09:00
 CHECK_INTERVAL = 30   # minutes between auto-runs
