@@ -23,12 +23,12 @@ from playwright.async_api import async_playwright
 
 # ── Config (set these as environment variables) ────────────────────────────────
 
-APTUS_URL    = os.environ["APTUS_URL"]       # https://aptus.studentvagen.se/AptusPortalStyra
-APTUS_USER   = os.environ["APTUS_USERNAME"]
-APTUS_PASS   = os.environ["APTUS_PASSWORD"]
+APTUS_URL    = os.environ["https://aptus.studentvagen.se/AptusPortalStyra"]       # https://aptus.studentvagen.se/AptusPortalStyra
+APTUS_USER   = os.environ["N22B73"]
+APTUS_PASS   = os.environ["B73B73"]
 CATEGORY_ID  = os.environ.get("CATEGORY_ID", "23")
-DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
-OWNER_ID     = int(os.environ["DISCORD_OWNER_ID"])  # your Discord user ID
+DISCORD_TOKEN = os.environ["MTQ3NDg5MjkwOTI4MjMzMjg3NA.GxvF7C.XvcQUTroEOohcT3m6q7c1IKxCAwNlBpe-oeNUA"]
+OWNER_ID     = int(os.environ["berekleyblue"])  # your Discord user ID
 
 MIN_HOUR       = 9    # never book before 09:00
 CHECK_INTERVAL = 30   # minutes between auto-runs
