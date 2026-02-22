@@ -100,18 +100,21 @@ async def make_page(pw):
 
 
 async def login(page) -> bool:
-    print("[login] Navigating to login page...")
-    await page.goto(f"{APTUS_URL}/Account/Login", wait_until="domcontentloaded", timeout=30000)
-    print("[login] Page loaded, filling form...")
-    await page.wait_for_timeout(1000)
-    await page.fill('input[name="UserName"]', APTUS_USER)
-    await page.fill('input[name="Password"]', APTUS_PASS)
-    print("[login] Submitting...")
-    await page.click('input[type="submit"], button[type="submit"]')
-    await page.wait_for_load_state("domcontentloaded", timeout=30000)
-    await page.wait_for_timeout(2000)
-    print(f"[login] Final URL: {page.url}")
-    return "Login" not in page.url
+    try:
+        print("[login] Navigating to login page...")
+        await page.goto(f"{APTUS_URL}/Account/Login", wait_until="domcontentloaded", timeout=20000)
+        print("[login] Page loaded, filling form...")
+        await page.fill('input[name="UserName"]', APTUS_USER)
+        await page.fill('input[name="Password"]', APTUS_PASS)
+        print("[login] Submitting...")
+        await page.click('input[type="submit"], button[type="submit"]')
+        await page.wait_for_load_state("domcontentloaded", timeout=20000)
+        await page.wait_for_timeout(2000)
+        print(f"[login] Final URL: {page.url}")
+        return "Login" not in page.url
+    except Exception as e:
+        print(f"[login] FAILED: {e}")
+        return False
 
 
 async def read_booking_page(page) -> dict:
