@@ -95,14 +95,18 @@ def fmt(dt: datetime) -> str:
 
 async def make_page(pw):
     browser = await pw.chromium.launch(headless=True)
-    page    = await browser.new_page()
+    # Fresh context with no cookies or storage for every session
+    context = await browser.new_context(
+        ignore_https_errors=True,
+        java_script_enabled=True,
+    )
+    page = await context.new_page()
     return browser, page
 
 
 async def login(page) -> bool:
     try:
         print("[login] Navigating to login page...")
-        await page.context.clear_cookies()
         await page.goto(f"{APTUS_URL}/Account/Login", wait_until="commit", timeout=20000)
         await page.wait_for_load_state("domcontentloaded", timeout=20000)
         print(f"[login] Page loaded: {page.url}")
