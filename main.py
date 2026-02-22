@@ -33,6 +33,7 @@ APTUS_PASS    = os.environ["APTUS_PASSWORD"]
 CATEGORY_ID   = os.environ.get("CATEGORY_ID", "23")
 DISCORD_TOKEN = os.environ["DISCORD_TOKEN"]
 OWNER_ID      = int(os.environ["DISCORD_OWNER_ID"])
+GUILD_ID      = int(os.environ["DISCORD_GUILD_ID"])
 
 MIN_HOUR       = 9    # never book before 09:00
 CHECK_INTERVAL = 30   # minutes between auto-runs
@@ -99,13 +100,17 @@ async def make_page(pw):
 
 
 async def login(page) -> bool:
-    await page.goto(f"{APTUS_URL}/Account/Login", wait_until="domcontentloaded")
+    print("[login] Navigating to login page...")
+    await page.goto(f"{APTUS_URL}/Account/Login", wait_until="domcontentloaded", timeout=30000)
+    print("[login] Page loaded, filling form...")
     await page.wait_for_timeout(1000)
     await page.fill('input[name="UserName"]', APTUS_USER)
     await page.fill('input[name="Password"]', APTUS_PASS)
+    print("[login] Submitting...")
     await page.click('input[type="submit"], button[type="submit"]')
-    await page.wait_for_load_state("domcontentloaded")
+    await page.wait_for_load_state("domcontentloaded", timeout=30000)
     await page.wait_for_timeout(2000)
+    print(f"[login] Final URL: {page.url}")
     return "Login" not in page.url
 
 
@@ -438,8 +443,10 @@ async def scheduler():
 
 @client.event
 async def on_ready():
-    await tree.sync()
-    print(f"[Bot] Logged in as {client.user} — slash commands synced")
+    guild = discord.Object(id=GUILD_ID)
+    tree.copy_global_to(guild=guild)
+    await tree.sync(guild=guild)
+    print(f"[Bot] Logged in as {client.user} — slash commands synced to guild {GUILD_ID}")
     await dm_owner(
         "🤖 **Laundry bot is online!**\n"
         "Commands: `/bookings` `/slots` `/book <n>` `/cancel <n>` `/run`"
