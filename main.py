@@ -102,8 +102,9 @@ async def make_page(pw):
 async def login(page) -> bool:
     try:
         print("[login] Navigating to login page...")
-        await page.goto(f"{APTUS_URL}/Account/Login", wait_until="domcontentloaded", timeout=20000)
-        print("[login] Page loaded, filling form...")
+        await page.goto(f"{APTUS_URL}/Account/Login", wait_until="commit", timeout=20000)
+        await page.wait_for_load_state("domcontentloaded", timeout=20000)
+        print(f"[login] Page loaded: {page.url}")
         await page.fill('input[name="UserName"]', APTUS_USER)
         await page.fill('input[name="Password"]', APTUS_PASS)
         print("[login] Submitting...")
