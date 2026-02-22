@@ -102,6 +102,7 @@ async def make_page(pw):
 async def login(page) -> bool:
     try:
         print("[login] Navigating to login page...")
+        await page.context.clear_cookies()
         await page.goto(f"{APTUS_URL}/Account/Login", wait_until="commit", timeout=20000)
         await page.wait_for_load_state("domcontentloaded", timeout=20000)
         print(f"[login] Page loaded: {page.url}")
